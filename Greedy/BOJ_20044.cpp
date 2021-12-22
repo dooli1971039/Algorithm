@@ -8,13 +8,13 @@ int main() {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0); cout.tie(0);
 
-	cin >> n; //ÆÀÀÇ °³¼ö
+	cin >> n; //íŒ€ì˜ ê°œìˆ˜
 	vector<int>v;
 	for (int i = 0; i < 2*n; i++) {
 		cin >> a;
 		v.push_back(a);
 	}
-	sort(v.begin(), v.end()); //Á¤·Ä
+	sort(v.begin(), v.end()); //ì •ë ¬
 
 	mmin = 1e9;
 	for (int i = 0; i < n; i++) {
