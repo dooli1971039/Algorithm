@@ -1,6 +1,5 @@
 #include <iostream>
-#include <algorithm>
-#include <vector>
+
 using namespace std;
 int n, cnt;
 
@@ -14,7 +13,7 @@ int main() {
 	while (n >= 0) {
 		if (n % 5 == 0) {
 			cnt += (n / 5);
-			cout << cnt << 'n';
+			cout << cnt << '\n';
 			return 0;
 		}
 		else {
