@@ -1,42 +1,34 @@
 #include <iostream>
 #include <algorithm>
-#include <vector>
-#include <string>
 using namespace std;
-//50점만 받음...ㅠㅠ
-
-string IOI(int n) {
-	if (n == 1) return "IOI";
-	else {
-		string str = "IOI";
-		for (int i = 0; i < n - 1; i++) {
-			str += "OI";
-		}
-		return str;
-	}
-}
 
 int main() {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0); cout.tie(0);
 
-	int n, m;
-	cin >> n >> m;
-	string str;
-	cin >> str;
+	//입력
+	int n, m; string str;
+	cin >> n >> m >> str;
 
-	int count = 0;
-	int pos = -1;
-	string result = IOI(n);
+	//문제 해결
+	int ans = 0;
+	for (int i = 0; i < m; i++) {
+		
+		int k = 0; //IOI의 개수
+		if (str[i] == 'O') continue;
 
-	while (true) {
-		pos = str.find(result, pos + 1);
-		if (pos == -1) break;
+		while (str[i + 1] == 'O' && str[i + 2] == 'I') {
+			k++;
 
-		count++;
+			if (k == n) {
+				ans++;
+				k--; //오른쪽으로 +2만큼 이동할텐데 이때 k값이 바뀌지 않게 하나 빼줌
+			}
+			i += 2; //인덱스 뛰어 넘기
+		}
 	}
 
-
-	cout << count << '\n';
+	//결과 출력
+	cout << ans << '\n';
 
 }
