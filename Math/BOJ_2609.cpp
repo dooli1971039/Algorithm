@@ -1,7 +1,11 @@
 #include <iostream>
 using namespace std;
 
-int calcGCD(int a, int b) {
+// 최소공배수 구하기
+int calcLCD(int a, int b, int gcd) { return a * b / gcd; }
+
+// 최대공약수 구하기
+int calcGCD(int a, int b) { // a가 더 커야함
     while (b) {
         a %= b;
         swap(a, b);
@@ -21,7 +25,6 @@ int main() {
     }
 
     int gcd = calcGCD(a, b);
-    int lcm = a * b / gcd;
-
+    int lcm = calcLCD(a, b, gcd);
     cout << gcd << '\n' << lcm;
 }
