@@ -18,7 +18,9 @@ using namespace std;
  * 2번 로봇 이동: 가장 먼저 올라간 로봇부터 고려해야 하므로 (내리는 위치 - 1)부터 (올리는 위치)까지 검사
  *               -> 로봇 옮기는거 가능하면 존재여부 체크하고 내구도 감소
  * 3번 로봇 추가: 올리는 위치 칸 내구도 0이 아니라면 해당 칸 로봇 존재 여부 체크 + 내구도 감소
-
+ *
+ *
+ * >> 주의: 칸 번호를 1번이 아닌 0번부터 시작하는 것으로 관리하고 있기 때문에, n번 칸이 아니라 n-1번 칸이 내리는 위치 <<
  */
 
 struct info { // 내구도와 로봇 존재 여부
@@ -27,27 +29,27 @@ struct info { // 내구도와 로봇 존재 여부
 };
 
 /* 벨트를 한 칸 회전*/
-void rotate_belt(deque<info> &belt, int n) {
+void rotateBelt(deque<info> &belt, int n) {
     belt.push_front(belt.back());
     belt.pop_back();
-    belt[n - 1].is_on = false; // n-1칸은 로봇이 내리는 위치
+    belt[n - 1].is_on = false; // 로봇이 내리는 위치
 }
 
 /* 로봇을 움직일 수 있으면 한 칸 이동*/
-void move_robot(deque<info> &belt, int n) {
-    for (int i = n - 2; i >= 0; i--) { //
+void moveRobot(deque<info> &belt, int n) {
+    for (int i = n - 2; i >= 0; i--) { // 배열 접근 가능 범위가 0 ~ n-1 인데 다음 칸과 비교해야 하니까 0 ~ n-2
         if (belt[i].is_on && (!belt[i + 1].is_on) && (belt[i + 1].power >= 1)) {
             // 지금 칸에 로봇이 존재하고, 다음 칸에 로봇이 없으며, 다음 칸에 내구도가 남아있을 때
             belt[i].is_on = false;
             belt[i + 1].is_on = true;
             belt[i + 1].power--;
         }
-        belt[n - 1].is_on = false; // n-1칸은 로봇이 내리는 위치
+        belt[n - 1].is_on = false; // 로봇이 내리는 위치
     }
 }
 
 /* 올리는 칸에 로봇을 올릴 수 있으면 올림 */
-void put_robot(deque<info> &belt) {
+void putRobot(deque<info> &belt) {
     if (!belt[0].is_on && belt[0].power >= 1) {
         // 올리는 칸에 로봇이 존재하지 않고, 내구도가 남아있으면
         belt[0].is_on = true;
@@ -56,14 +58,36 @@ void put_robot(deque<info> &belt) {
 }
 
 /* 벨트의 내구도 체크 */
-int check_power(deque<info> &belt, int n) {
+bool checkFinish(deque<info> &belt, int n, int k) {
     int count = 0;
     for (int i = 0; i < 2 * n; i++) {
         if (belt[i].power == 0) {
             count++;
         }
     }
-    return count;
+
+    if (count >= k) {
+        return true;
+    }
+    return false;
+}
+
+int solution(deque<info> &belt, int n, int k) {
+    int step = 1;
+    while (true) {
+        // 회전
+        rotateBelt(belt, n);
+        // 이동
+        moveRobot(belt, n);
+        // 로봇 올리기
+        putRobot(belt);
+
+        // 내구도 체크하기
+        if (checkFinish(belt, n, k)) {
+            return step;
+        }
+        step++;
+    }
 }
 
 int main() {
@@ -76,21 +100,5 @@ int main() {
         belt[i].is_on = false;
     }
 
-    int step = 1;
-    while (true) {
-        // 회전
-        rotate_belt(belt, n);
-        // 이동
-        move_robot(belt, n);
-        // 로봇 올리기
-        put_robot(belt);
-
-        // 내구도 체크하기
-        if (check_power(belt, n) >= k) {
-            break;
-        }
-        step++;
-    }
-
-    cout << step;
+    cout << solution(belt, n, k);
 }
