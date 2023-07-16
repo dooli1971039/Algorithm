@@ -7,7 +7,6 @@ int n, m;
 
 vector<int> result(8, 0);
 vector<int> arr;
-vector<bool> used(8, false);
 
 void back(int cnt, int before_idx) {
     if (cnt == m) {
@@ -19,12 +18,8 @@ void back(int cnt, int before_idx) {
     }
 
     for (int i = before_idx + 1; i < n; i++) {
-        if (!used[i]) {
-            used[i] = true;
-            result[cnt] = arr[i];
-            back(cnt + 1, i);
-            used[i] = false;
-        }
+        result[cnt] = arr[i];
+        back(cnt + 1, i);
     }
 }
 
