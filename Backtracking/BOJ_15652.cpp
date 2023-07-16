@@ -4,7 +4,7 @@
 using namespace std;
 
 int n, m;
-vector<int> result(9, 0);
+vector<int> result(8, 0);
 
 void back(int cnt, int before) {
     if (cnt == m) {

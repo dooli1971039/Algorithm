@@ -4,7 +4,7 @@
 using namespace std;
 
 int n, m;
-vector<int> result(9, 0); // 1~8까지라서
+vector<int> result(8, 0);
 vector<bool> used(9, false);
 
 void back(int cnt, int before) {
