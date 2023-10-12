@@ -46,6 +46,8 @@ int main() {
         if (cmd == 0) { // union 연산
             unionInput(a, b);
         } else { // 같은 집합에 포함되어있는지
+            // parent[a], parent[b]가 아닌 이유 -> 루트 정점의 경우 parent값이 음수이다.
+            // 따라서 정점을 구하려면 갱신이 필요함
             if (findParent(a) == findParent(b))
                 cout << "YES\n";
             else
